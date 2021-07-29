@@ -1,0 +1,12 @@
+{
+    "name": "mashoshin/auth-service",
+    "description": "Authorization service",
+    "type": "project",
+    "authors": [
+        {
+            "name": "evgeniy.mashoshin",
+            "email": "evgeniy.mashoshin@simpleone.ru"
+        }
+    ],
+    "require": {}
+}

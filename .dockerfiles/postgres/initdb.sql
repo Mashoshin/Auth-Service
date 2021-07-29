@@ -1,0 +1,18 @@
+BEGIN;
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    password VARCHAR(80) NOT NULL,
+    email VARCHAR(80) NOT NULL UNIQUE,
+    login VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE user_token(
+  id SERIAL PRIMARY KEY,
+  token VARCHAR(80) NOT NULL,
+  user_id INTEGER NOT NULL,
+  expired_at TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+COMMIT;
