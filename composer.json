@@ -8,5 +8,14 @@
             "email": "evgeniy.mashoshin@simpleone.ru"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+
+    "require": {
+        "symfony/dotenv": "^5.3",
+        "psr/container": "^2.0"
+    }
 }
