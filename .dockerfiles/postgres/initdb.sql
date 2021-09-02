@@ -4,7 +4,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     password VARCHAR(80) NOT NULL,
     email VARCHAR(80) NOT NULL UNIQUE,
-    login VARCHAR(80) NOT NULL
+    login VARCHAR(80) NOT NULL UNIQUE
 );
 
 CREATE TABLE user_token(

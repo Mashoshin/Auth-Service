@@ -4,7 +4,7 @@ namespace src;
 
 use Psr\Container\ContainerInterface;
 use src\Core\Infrastructure\Container\DiContainer;
-use src\Domain\Web\Router;
+use src\Core\Infrastructure\Web\Router;
 
 class App
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Domain\Web;
+namespace src\Core\Infrastructure\Web;
 
 use Exception;
 
@@ -40,7 +40,7 @@ class Router
             throw new Exception('Url config error.');
         }
 
-        $controller = 'src/Module//' . ucfirst($params[0]) . '//' . ucfirst($params[0]) . 'Controller';
+        $controller = 'src\Modules\\' . ucfirst($params[0]) . '\\' . ucfirst($params[0]) . 'Controller';
         if (!class_exists($controller)) {
             throw new Exception('Controller not found');
         }

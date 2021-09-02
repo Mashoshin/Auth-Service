@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Domain\Web;
+namespace src\Core\Infrastructure\Web;
 
 class Request
 {

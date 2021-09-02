@@ -2,14 +2,14 @@
 
 use src\App;
 
-require CONFIG . '/bootstrap.php';
+require 'config' . '/bootstrap.php';
 
 $config = [
     'definitions' => require CONFIG . '/definitions.php'
 ];
 
 try {
-    (new App($config))->run();
+    echo (new App($config))->run();
 } catch (Throwable $e) {
     echo $e->getMessage();
 }
