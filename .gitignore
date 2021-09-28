@@ -1,3 +1,10 @@
 .idea
 composer.lock
 /vendor/*
+/.data/*
+supervisord.log
+xdebug.log
+test_reciever.php
+test_sender.php
+send_email.php
+test_send.php

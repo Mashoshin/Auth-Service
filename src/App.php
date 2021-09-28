@@ -14,7 +14,7 @@ class App
     public function __construct(array $config = [])
     {
         $this->container = new DiContainer();
-        $this->container->setDefinitions($config['definitions']);
+        $this->container->setDefinitions($config['definitions'] ?? []);
         $this->router = $this->container->get(Router::class);
     }
 

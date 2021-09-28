@@ -54,3 +54,31 @@ services:
     volumes:
       - ./:/app
     command: composer install
+
+  rabbit:
+    container_name: ${RABBITMQ_HOST}
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - ./.data/rabbitmq/:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  consumer:
+    build: .dockerfiles
+    restart: always
+    container_name: consumer
+    volumes:
+      - .:/app
+      - ./.dockerfiles/php/supervisord.tmpl.conf:/etc/supervisor/conf.d/supervisord.conf
+    working_dir: /app
+    depends_on:
+      - php-fpm
+      - mailhog
+    entrypoint:
+      - bash
+      - -c
+      - /usr/bin/supervisord -n

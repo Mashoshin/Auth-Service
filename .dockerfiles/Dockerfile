@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
         libpq-dev \
         libxpm-dev \
         libvpx-dev \
+        supervisor \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install -j$(nproc) gd \
@@ -16,4 +17,5 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) pgsql \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
     && docker-php-ext-install -j$(nproc) exif \
-    && docker-php-ext-install sockets
+    && docker-php-ext-install sockets \
+    && mkdir -p /var/log/supervisor \
