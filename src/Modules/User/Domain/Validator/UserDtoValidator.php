@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Modules\User\Domain\Validator;
+namespace Modules\User\Domain\Validator;
 
 use Exception;
-use src\Modules\User\Domain\Dto\UserDto;
-use src\Modules\User\Domain\Repository\UserRepositoryInterface;
+use Modules\User\Domain\Dto\UserDto;
+use Modules\User\Domain\Repository\UserRepositoryInterface;
 
 class UserDtoValidator
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Modules\User\Domain\Dto;
+namespace Modules\User\Domain\Dto;
 
 class UserDto
 {
@@ -39,7 +39,7 @@ class UserDto
         return [
             'email' => $this->email,
             'login' => $this->login,
-            'password' => $this->password,
+            'password_hash' => $this,
         ];
     }
 }
