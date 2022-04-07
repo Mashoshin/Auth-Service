@@ -2,6 +2,7 @@
 
 namespace Modules\User\Infrastructure\Service;
 
+use Core\Domain\Exception\ValidationException;
 use Core\Infrastructure\Configuration\SecurityConfiguration;
 use Modules\Auth\Domain\Entity\User;
 use Modules\User\Domain\Dto\UserDto;
@@ -16,7 +17,12 @@ class UserService
         private SecurityConfiguration $securityConfiguration,
     ) {}
 
-    public function create(UserDto $userDto): bool
+    /**
+     * @param UserDto $userDto
+     * @return void
+     * @throws ValidationException
+     */
+    public function create(UserDto $userDto): void
     {
         $this->userDtoValidator->validate($userDto);
 
@@ -25,6 +31,6 @@ class UserService
         $user->login = $userDto->getLogin();
         $user->password_hash = $this->securityConfiguration->generatePasswordHash($userDto->getPassword());
 
-        return $this->userRepository->save($user);
+        $this->userRepository->save($user);
     }
 }

@@ -1,54 +1,60 @@
 <?php
 
-namespace src\Modules\Auth;
+namespace Modules\Auth;
 
-use Psr\Container\ContainerInterface;
-use src\Core\Infrastructure\Web\Request;
-use src\Core\Presentation\Controller\BaseController;
-use src\Modules\Auth\Infrastructure\AuthService;
-use src\Modules\User\Domain\Dto\UserDto;
+use Core\Domain\Exception\NotFoundException;
+use Core\Domain\Exception\ValidationException;
+use Core\Infrastructure\Web\Request;
+use Core\Presentation\Controller\BaseController;
+use Modules\Auth\Domain\Exception\WrongPasswordException;
+use Modules\Auth\Infrastructure\AuthService;
+use Modules\User\Domain\Dto\UserDto;
 
 class AuthController extends BaseController
 {
-    private AuthService $authService;
-
     public function __construct(
-        ContainerInterface $container,
-        Request $request,
-        AuthService $authService
-    ) {
-        parent::__construct($container, $request);
-        $this->authService = $authService;
-    }
+        private Request $request,
+        private AuthService $authService
+    ) {}
 
     public function index()
     {
-        if ($this->authService->isLogin()) {
-            return $this->render('main');
+        $error = '';
+        try {
+            if ($this->authService->isLogin()) {
+                return $this->render('main');
+            }
+
+            $login = $this->request->getPostParam('login');
+            $password = $this->request->getPostParam('password');
+            if ($login && $password) {
+                $this->authService->login($login, $password);
+                return $this->render('main');
+            }
+        } catch (WrongPasswordException|NotFoundException $e) {
+            $error = $e->getMessage();
         }
 
-        $login = $this->request->getPostParam('login');
-        $password = $this->request->getPostParam('password');
-        if ($login && $password) {
-            $this->authService->login($login, $password);
-            return $this->render('main');
-        }
-
-        return $this->render('login');
+        return $this->render('login', ['error' => $error]);
     }
 
     public function register()
     {
-        $email = $this->request->getPostParam('email');
-        $password = $this->request->getPostParam('password');
-        $login = $this->request->getPostParam('login');
+        $error = '';
+        try {
+            $email = $this->request->getPostParam('email');
+            $password = $this->request->getPostParam('password');
+            $login = $this->request->getPostParam('login');
 
-        if ($email && $password && $login) {
-            $this->authService->register(new UserDto($email, $login, $password));
-            $this->refresh('/');
+            if ($email && $password && $login) {
+                $this->authService->register(new UserDto($email, $login, $password));
+                $this->refresh('/');
+            }
+        } catch (ValidationException $e) {
+            $error = $e->getMessage();
         }
 
-        return $this->render('signup');
+        return $this->render('signup', ['error' => $error]);
     }
 
     public function logout()

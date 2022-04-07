@@ -5,21 +5,21 @@
     "authors": [
         {
             "name": "evgeniy.mashoshin",
-            "email": "evgeniy.mashoshin@simpleone.ru"
+            "email": "Mashoshin420@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "src\\": "src/"
+            "": "src/"
         }
     },
-
     "require": {
         "symfony/dotenv": "^5.3",
         "psr/container": "^2.0",
         "ext-pdo": "*",
         "php-amqplib/php-amqplib": ">=2.9.0",
         "swiftmailer/swiftmailer": "^6.2",
-        "predis/predis": "^1.1"
+        "predis/predis": "^v1.1.10",
+        "ext-redis": "*"
     }
 }

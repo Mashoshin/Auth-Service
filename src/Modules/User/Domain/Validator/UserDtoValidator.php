@@ -2,6 +2,7 @@
 
 namespace Modules\User\Domain\Validator;
 
+use Core\Domain\Exception\ValidationException;
 use Exception;
 use Modules\User\Domain\Dto\UserDto;
 use Modules\User\Domain\Repository\UserRepositoryInterface;
@@ -17,20 +18,21 @@ class UserDtoValidator
 
     /**
      * @param UserDto $userDto
-     * @throws Exception
+     * @return void
+     * @throws ValidationException
      */
     public function validate(UserDto $userDto): void
     {
-        if (empty($userDto->getEmail())) {
-            throw new Exception('Wrong email. Try again.');
+        if (empty($userDto->getEmail()) || !filter_var($userDto->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException('Email is incorrect.');
         }
 
-        if (strlen($userDto->getPassword()) < 5) {
-            throw new Exception('Password must be more than 5 characters long.');
+        if (strlen($userDto->getPassword()) <= 5) {
+            throw new ValidationException('Password must be more than 5 characters long.');
         }
 
-        if ($this->userRepository->existByLogin($userDto->getLogin())) {
-            throw new Exception('User with this login already exist.');
+        if ($this->userRepository->existsByLoginOrEmail($userDto->getLogin(), $userDto->getEmail())) {
+            throw new ValidationException('User with same email or login already exists.');
         }
     }
 }

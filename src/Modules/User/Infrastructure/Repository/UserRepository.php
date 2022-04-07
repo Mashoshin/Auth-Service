@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
             ->query();
 
         if (!$source) {
-            throw new NotFoundException("User with login '$login' not found.");
+            throw new NotFoundException("User with login '$login' does not exist.");
         }
 
         /** @var User $user */
@@ -36,18 +36,29 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function existByLogin(string $login): bool
+    public function existsByLogin(string $login): bool
     {
         $source = (new Query())
             ->from(User::TABLE_NAME)
-            ->where('login', $login)
+            ->where(User::FIELD_LOGIN, $login)
             ->query();
 
         return !!$source;
     }
 
-    public function save(User $user): bool
+    public function existsByLoginOrEmail(string $login, string $email): bool
     {
-        return (new Query())->insert(User::TABLE_NAME, $this->mapper->toArray($user));
+        $source = (new Query())
+            ->from(User::TABLE_NAME)
+            ->where(User::FIELD_LOGIN, $login)
+            ->orWhere(User::FIELD_EMAIL, $email)
+            ->query();
+
+        return !!$source;
+    }
+
+    public function save(User $user): void
+    {
+        (new Query())->insert(User::TABLE_NAME, $this->mapper->toArray($user));
     }
 }
