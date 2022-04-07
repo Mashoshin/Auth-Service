@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Main</title>
+    <link rel="stylesheet" href="../web/style/main.css">
 </head>
 <body>
 <div style="text-align: center">
