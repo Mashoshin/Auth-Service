@@ -1,0 +1,1 @@
+# Auth Service on plain php used redis for sessions and rabbit mq for email notifications
