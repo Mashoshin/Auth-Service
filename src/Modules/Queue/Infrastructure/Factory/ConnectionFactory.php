@@ -1,20 +1,17 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure\Factory;
+namespace Modules\Queue\Infrastructure\Factory;
 
 use Exception;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use src\Modules\Queue\Infrastructure\Connection;
+use Modules\Queue\Infrastructure\Connection;
 use Throwable;
 
 class ConnectionFactory
 {
-    private ConsumerFactory $consumerFactory;
-
-    public function __construct(ConsumerFactory $consumerFactory)
-    {
-        $this->consumerFactory = $consumerFactory;
-    }
+    public function __construct(
+        private ConsumerFactory $consumerFactory
+    ) {}
 
     /**
      * @return Connection
@@ -45,7 +42,7 @@ class ConnectionFactory
                 getenv('RABBITMQ_USER'),
                 getenv('RABBITMQ_PASSWORD')
             );
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return null;
         }
     }

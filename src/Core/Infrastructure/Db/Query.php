@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Core\Infrastructure\Db;
+namespace Core\Infrastructure\Db;
 
 use Exception;
 use PDOStatement;
@@ -22,13 +22,13 @@ class Query
         return $this;
     }
 
-    public function andWhere(string $property, $value): self
+    public function orWhere(string $property, $value): self
     {
-        $this->where .= " AND $property='$value'";
+        $this->where .= " OR $property='$value'";
         return $this;
     }
 
-    public function query(): ?object
+    public function query(): ?array
     {
         if (!$this->from) {
             throw new Exception('Missing FROM param.');
@@ -41,7 +41,7 @@ class Query
         if ($statement instanceof PDOStatement) {
             $object = $statement->fetchObject();
             if ($object) {
-                return $object;
+                return (array) $object;
             }
         }
 

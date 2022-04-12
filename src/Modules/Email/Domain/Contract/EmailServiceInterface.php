@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Modules\Email\Domain\Contract;
+namespace Modules\Email\Domain\Contract;
 
 interface EmailServiceInterface
 {

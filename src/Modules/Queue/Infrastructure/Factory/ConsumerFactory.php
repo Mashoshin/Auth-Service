@@ -1,19 +1,18 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure\Factory;
+namespace Modules\Queue\Infrastructure\Factory;
 
 use Exception;
 use Psr\Container\ContainerInterface;
-use src\Modules\Queue\Domain\Contract\ConsumerInterface;
+use Modules\Queue\Domain\Contract\ConsumerInterface;
 
 class ConsumerFactory
 {
-    private ContainerInterface $container;
     private array $consumers;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private ContainerInterface $container
+    ) {
         $this->consumers = require CONFIG . '/consumers.php';
     }
 

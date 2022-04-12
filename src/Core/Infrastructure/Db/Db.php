@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Core\Infrastructure\Db;
+namespace Core\Infrastructure\Db;
 
 use PDO;
 
@@ -8,7 +8,7 @@ class Db
 {
     private static ?PDO $connection = null;
 
-    public static function getConnection()
+    public static function getConnection(): PDO
     {
         if (!static::$connection) {
             static::setConnection();
@@ -17,7 +17,7 @@ class Db
         return static::$connection;
     }
 
-    private static function setConnection()
+    private static function setConnection(): void
     {
         $user = getenv('DB_USER');
         $password = getenv('DB_PASSWORD');

@@ -1,10 +1,8 @@
 <?php
 
-namespace src;
-
 use Psr\Container\ContainerInterface;
-use src\Core\Infrastructure\Container\DiContainer;
-use src\Core\Infrastructure\Web\Router;
+use Core\Infrastructure\Container\DiContainer;
+use Core\Infrastructure\Web\Router;
 
 class App
 {

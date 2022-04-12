@@ -1,8 +1,8 @@
 <?php
 
-use src\Core\Infrastructure\Container\DiContainer;
-use src\Modules\Queue\Domain\Contract\QueueServiceInterface;
-use src\Modules\Queue\Domain\ValueObject\RoutingKey;
+use Core\Infrastructure\Container\DiContainer;
+use Modules\Queue\Domain\Contract\QueueServiceInterface;
+use Modules\Queue\Domain\ValueObject\RoutingKey;
 
 require __DIR__ . '/config/bootstrap.php';
 $definitions = require CONFIG . '/definitions.php';

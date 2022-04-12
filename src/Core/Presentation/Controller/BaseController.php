@@ -1,24 +1,11 @@
 <?php
 
-namespace src\Core\Presentation\Controller;
+namespace Core\Presentation\Controller;
 
 use Exception;
-use Psr\Container\ContainerInterface;
-use src\Core\Infrastructure\Web\Request;
 
 class BaseController
 {
-    protected ContainerInterface $container;
-    protected Request $request;
-
-    public function __construct(
-        ContainerInterface $container,
-        Request $request
-    ) {
-        $this->container = $container;
-        $this->request = $request;
-    }
-
     protected function render(string $view, array $params = []): string
     {
         ob_start();
@@ -31,13 +18,13 @@ class BaseController
         return ob_get_clean();
     }
 
-    protected function redirect(string $url): void
+    protected function redirect(string $url): never
     {
         header("Location: $url");
         exit;
     }
 
-    protected function refresh(string $url)
+    protected function refresh(string $url): never
     {
         header("Refresh:1;url=$url");
         exit;

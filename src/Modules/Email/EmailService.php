@@ -1,22 +1,18 @@
 <?php
 
-namespace src\Modules\Email;
+namespace Modules\Email;
 
-use src\Modules\Email\Domain\Contract\EmailServiceInterface;
-use src\Modules\Email\Domain\Mailer;
-use src\Modules\Queue\Domain\ValueObject\RoutingKey;
-use src\Modules\Queue\Infrastructure\Service\QueueService;
+use Modules\Email\Domain\Contract\EmailServiceInterface;
+use Modules\Email\Domain\Mailer;
+use Modules\Queue\Domain\ValueObject\RoutingKey;
+use Modules\Queue\Infrastructure\Service\QueueService;
 
 class EmailService implements EmailServiceInterface
 {
-    private Mailer $mailer;
-    private QueueService $queueService;
-
-    public function __construct(Mailer $mailer, QueueService $queueService)
-    {
-        $this->mailer = $mailer;
-        $this->queueService = $queueService;
-    }
+    public function __construct(
+        private Mailer $mailer,
+        private QueueService $queueService
+    ) {}
 
     /**
      * @param string $to

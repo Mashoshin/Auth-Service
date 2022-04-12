@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Modules\Email\Domain;
+namespace Modules\Email\Domain;
 
 use Swift_Mailer;
 use Swift_Message;

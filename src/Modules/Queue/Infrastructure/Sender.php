@@ -1,15 +1,12 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure;
+namespace Modules\Queue\Infrastructure;
 
 class Sender
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-    }
+    public function __construct(
+        private Connection $connection
+    ) {}
 
     /**
      * @param array $data

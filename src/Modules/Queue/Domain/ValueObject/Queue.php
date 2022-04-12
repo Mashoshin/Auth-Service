@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Modules\Queue\Domain\ValueObject;
+namespace Modules\Queue\Domain\ValueObject;
 
 class Queue
 {

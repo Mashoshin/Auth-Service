@@ -1,19 +1,15 @@
 <?php
 
-namespace src\Modules\Email\Domain\Consumer;
+namespace Modules\Email\Domain\Consumer;
 
-use src\Modules\Email\Domain\Contract\EmailServiceInterface;
-
-use src\Modules\Queue\Domain\Contract\ConsumerInterface;
+use Modules\Email\Domain\Contract\EmailServiceInterface;
+use Modules\Queue\Domain\Contract\ConsumerInterface;
 
 class EmailConsumer implements ConsumerInterface
 {
-    private EmailServiceInterface $emailService;
-
-    public function __construct(EmailServiceInterface $emailService)
-    {
-        $this->emailService = $emailService;
-    }
+    public function __construct(
+        private EmailServiceInterface $emailService
+    ) {}
 
     public function consume($data): void
     {

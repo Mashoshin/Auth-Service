@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Modules\Queue\Domain\Contract;
+namespace Modules\Queue\Domain\Contract;
 
 interface ConsumerInterface
 {

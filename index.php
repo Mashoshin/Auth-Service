@@ -1,8 +1,6 @@
 <?php
 
-use src\App;
-
-require 'config' . '/bootstrap.php';
+require __DIR__ . '/config/bootstrap.php';
 
 $config = [
     'definitions' => require CONFIG . '/definitions.php'

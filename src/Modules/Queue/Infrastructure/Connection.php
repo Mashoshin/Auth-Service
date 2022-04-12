@@ -1,26 +1,20 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure;
+namespace Modules\Queue\Infrastructure;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use src\Modules\Queue\Domain\ValueObject\ExchangeName;
-use src\Modules\Queue\Domain\ValueObject\Queue;
-use src\Modules\Queue\Infrastructure\Factory\ConsumerFactory;
+use Modules\Queue\Domain\ValueObject\ExchangeName;
+use Modules\Queue\Domain\ValueObject\Queue;
+use Modules\Queue\Infrastructure\Factory\ConsumerFactory;
 use Throwable;
 
 class Connection
 {
-    private AMQPStreamConnection $connection;
-    private ConsumerFactory $consumerFactory;
-
     public function __construct(
-        AMQPStreamConnection $connection,
-        ConsumerFactory $consumerFactory
-    ) {
-        $this->connection = $connection;
-        $this->consumerFactory = $consumerFactory;
-    }
+        private AMQPStreamConnection $connection,
+        private ConsumerFactory $consumerFactory
+    ) {}
 
     public function publish(string $message, string $routingKey): void
     {
@@ -65,15 +59,12 @@ class Connection
     private function getCallback($routingKey): callable
     {
         $consumer = $this->consumerFactory->create($routingKey);
-        file_put_contents(__DIR__ . '/log.txt', 'я тута' . PHP_EOL, FILE_APPEND);
         return function (AMQPMessage $msg) use ($consumer) {
             try {
                 ob_start();
                 $data = json_decode($msg->body, true);
-                file_put_contents(__DIR__ . '/log.txt', $msg->body . PHP_EOL, FILE_APPEND);
                 $consumer->consume($data);
             } catch (Throwable $e) {
-                file_put_contents(__DIR__ . '/log.txt', $e->getMessage() . PHP_EOL, FILE_APPEND);
                 echo $e->getMessage();
             }
         };

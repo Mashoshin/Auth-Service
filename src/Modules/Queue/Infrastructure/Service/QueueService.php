@@ -1,21 +1,18 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure\Service;
+namespace Modules\Queue\Infrastructure\Service;
 
-use src\Modules\Queue\Domain\Contract\QueueServiceInterface;
-use src\Modules\Queue\Infrastructure\Connection;
-use src\Modules\Queue\Infrastructure\Factory\ConnectionFactory;
-use src\Modules\Queue\Infrastructure\Receiver;
-use src\Modules\Queue\Infrastructure\Sender;
+use Modules\Queue\Domain\Contract\QueueServiceInterface;
+use Modules\Queue\Infrastructure\Connection;
+use Modules\Queue\Infrastructure\Factory\ConnectionFactory;
+use Modules\Queue\Infrastructure\Receiver;
+use Modules\Queue\Infrastructure\Sender;
 
 class QueueService implements QueueServiceInterface
 {
-    private ConnectionFactory $connectionFactory;
-
-    public function __construct(ConnectionFactory $connectionFactory)
-    {
-        $this->connectionFactory = $connectionFactory;
-    }
+    public function __construct(
+        private ConnectionFactory $connectionFactory
+    ) {}
 
     /**
      * @inheritDoc

@@ -1,45 +1,40 @@
-version: '3.0'
+version: '3.8'
 
 services:
   php-fpm:
-    build: .dockerfiles
-    restart: always
-    container_name: php
+    build:
+      context: .
+      dockerfile: ./.dockerfiles/dev/fpm/Dockerfile
+    container_name: php-fpm
     volumes:
-      - ./.dockerfiles/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./.dockerfiles/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - .:/app
-    working_dir: /app
-    depends_on:
-      - composer
+      - .:/var/www
 
   redis:
     image: redis:5.0.7
     container_name: redis-auth
     command: redis-server --appendonly yes
     ports:
-      - 6380:6379
+      - 6379:6379
 
   database:
     image: postgres
-    restart: always
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 5436:5432
+      - 5432:5432
     volumes:
-      - ./.dockerfiles/postgres/:/docker-entrypoint-initdb.d/
+      - ./.dockerfiles/dev/postgres/:/docker-entrypoint-initdb.d/
 
   web:
     image: nginx
     container_name: nginx
     volumes:
-      - ./.dockerfiles/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./:/app
+      - ./.dockerfiles/dev/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www
     ports:
-    - 8086:80
+    - 80:80
     restart: always
     depends_on:
       - php-fpm
@@ -56,11 +51,12 @@ services:
       - 8026:8025
 
   composer:
-    image: composer
+    image: composer:latest
     container_name: composer
+    command: bash -c "composer update --ignore-platform-reqs --no-interaction"
+    restart: 'no'
     volumes:
       - ./:/app
-    command: composer install
 
   rabbit:
     container_name: ${RABBITMQ_HOST}
@@ -75,12 +71,14 @@ services:
       - 15672:15672
 
   consumer:
-    build: .dockerfiles
+    build:
+      context: .
+      dockerfile: .dockerfiles/dev/cli/Dockerfile
     restart: always
     container_name: consumer
     volumes:
       - .:/app
-      - ./.dockerfiles/php/supervisord.tmpl.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./.dockerfiles/dev/cli/supervisord.tmpl.conf:/etc/supervisor/conf.d/supervisord.conf
     working_dir: /app
     depends_on:
       - php-fpm

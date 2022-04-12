@@ -1,15 +1,12 @@
 <?php
 
-namespace src\Modules\Queue\Infrastructure;
+namespace Modules\Queue\Infrastructure;
 
 class Receiver
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-    }
+    public function __construct(
+        private Connection $connection
+    ) {}
 
     /**
      * @param string $routingKey
